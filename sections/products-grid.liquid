@@ -1,0 +1,32 @@
+<section class="products-grid-section" style="--grid-columns: {{ section.settings.columns_desktop }}">
+  {% if section.settings.heading != blank %}
+    <h2 class="products-grid-heading">{{ section.settings.heading | escape }}</h2>
+  {% endif %}
+
+  {% if section.settings.collection == blank %}
+    <p class="grid-empty-state">Select a collection in this section's settings to display products.</p>
+  {% elsif section.settings.collection.products_count == 0 %}
+    <p class="grid-empty-state">This collection has no products yet.</p>
+  {% else %}
+    <div class="products-grid" role="list">
+      {% for product in section.settings.collection.products limit: section.settings.products_to_show %}
+        <div role="listitem">{% render 'product-card', product: product %}</div>
+      {% endfor %}
+    </div>
+  {% endif %}
+</section>
+
+{% schema %}
+{
+  "name": "Products grid",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Featured products" },
+    { "type": "collection", "id": "collection", "label": "Collection" },
+    { "type": "range", "id": "columns_desktop", "label": "Desktop columns", "min": 2, "max": 5, "step": 1, "default": 4 },
+    { "type": "range", "id": "products_to_show", "label": "Maximum products", "min": 2, "max": 12, "step": 1, "default": 4 }
+  ],
+  "presets": [
+    { "name": "Products grid" }
+  ]
+}
+{% endschema %}

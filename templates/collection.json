@@ -1,0 +1,12 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-collection",
+      "settings": {
+        "columns_desktop": 4,
+        "products_to_show": 12
+      }
+    }
+  },
+  "order": ["main"]
+}

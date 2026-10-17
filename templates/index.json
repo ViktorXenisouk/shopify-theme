@@ -1,0 +1,13 @@
+{
+  "sections": {
+    "products": {
+      "type": "products-grid",
+      "settings": {
+        "heading": "Featured products",
+        "columns_desktop": 4,
+        "products_to_show": 4
+      }
+    }
+  },
+  "order": ["products"]
+}

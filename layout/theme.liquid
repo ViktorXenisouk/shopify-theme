@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="{{ page_description | default: shop.description | escape }}">
+    <title>{{ page_title | escape }}{% unless page_title contains shop.name %} | {{ shop.name | escape }}{% endunless %}</title>
+    {{ content_for_header }}
+    {{ 'products-grid.css' | asset_url | stylesheet_tag }}
+  </head>
+  <body style="--theme-accent: {{ settings.accent_color | default: '#185d45' }};">
+    <a class="skip-link" href="#MainContent">Skip to content</a>
+    {% section 'header' %}
+    <main id="MainContent" class="page-width" role="main" tabindex="-1">
+      {{ content_for_layout }}
+    </main>
+    {% section 'footer' %}
+  </body>
+</html>

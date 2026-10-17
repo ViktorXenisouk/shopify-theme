@@ -1,0 +1,48 @@
+{% assign selected_variant = product.first_available_variant %}
+{% assign product_image_alt = product.featured_image.alt | default: product.title %}
+<article class="product-layout">
+  <div>
+    {% if product.featured_image %}
+      {{ product.featured_image | image_url: width: 1400 | image_tag: class: 'product-layout__image', alt: product_image_alt, loading: 'eager' }}
+    {% endif %}
+  </div>
+  <div class="product-layout__details">
+    <h1>{{ product.title | escape }}</h1>
+    {% if selected_variant %}
+      <p class="product-card__price">
+        <span class="product-card__current-price">{{ selected_variant.price | money }}</span>
+        {% if selected_variant.compare_at_price > selected_variant.price %}
+          <s class="product-card__compare-price">{{ selected_variant.compare_at_price | money }}</s>
+        {% endif %}
+      </p>
+    {% else %}
+      <p class="product-card__sold-out">Sold out</p>
+    {% endif %}
+    {% form 'product', product %}
+      {% if product.has_only_default_variant %}
+        {% if selected_variant %}<input type="hidden" name="id" value="{{ selected_variant.id }}">{% endif %}
+      {% else %}
+        <label for="ProductVariant">Options</label>
+        <select id="ProductVariant" name="id">
+          {% for variant in product.variants %}
+            <option value="{{ variant.id }}" {% if selected_variant and variant.id == selected_variant.id %}selected{% endif %} {% unless variant.available %}disabled{% endunless %}>
+              {{ variant.title | escape }}{% unless variant.available %} - Sold out{% endunless %}
+            </option>
+          {% endfor %}
+        </select>
+      {% endif %}
+      {% if selected_variant %}
+        <label for="ProductQuantity">Quantity</label>
+        <input id="ProductQuantity" type="number" name="quantity" value="1" min="1">
+        <button type="submit" name="add">Add to cart</button>
+      {% else %}
+        <button type="submit" disabled>Sold out</button>
+      {% endif %}
+    {% endform %}
+    <div class="rte">{{ product.description }}</div>
+  </div>
+</article>
+
+{% schema %}
+{ "name": "Product", "settings": [] }
+{% endschema %}

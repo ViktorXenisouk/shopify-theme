@@ -1,0 +1,32 @@
+{% assign card_variant = product.first_available_variant %}
+{% assign card_image_alt = product.featured_image.alt | default: product.title %}
+<article class="product-card">
+  <a class="product-card__image-link" href="{{ product.url }}">
+    {% if product.featured_image %}
+      {{ product.featured_image | image_url: width: 800 | image_tag: class: 'product-card__image', alt: card_image_alt, loading: 'lazy' }}
+    {% else %}
+      {{ 'product-1' | placeholder_svg_tag: 'product-card__placeholder' }}
+    {% endif %}
+    <span class="visually-hidden">View {{ product.title | escape }}</span>
+  </a>
+  <h3 class="product-card__title"><a href="{{ product.url }}">{{ product.title | escape }}</a></h3>
+  {% if card_variant %}
+    <p class="product-card__price">
+      <span class="product-card__current-price">{{ card_variant.price | money }}</span>
+      {% if card_variant.compare_at_price > card_variant.price %}
+        <s class="product-card__compare-price">{{ card_variant.compare_at_price | money }}</s>
+      {% endif %}
+    </p>
+    {% if card_variant.compare_at_price > card_variant.price %}<span class="product-card__badge">Sale</span>{% endif %}
+  {% else %}
+    <p class="product-card__price"><span class="product-card__current-price">{{ product.price | money }}</span></p>
+  {% endif %}
+  {% if product.available and card_variant %}
+    {% form 'product', product, class: 'product-card__form' %}
+      <input type="hidden" name="id" value="{{ card_variant.id }}">
+      <button type="submit" name="add">Add to cart</button>
+    {% endform %}
+  {% else %}
+    <span class="product-card__sold-out">Sold out</span>
+  {% endif %}
+</article>
