@@ -18,7 +18,6 @@
     {% else %}
       <p class="product-card__sold-out">Sold out</p>
     {% endif %}
-    {% form 'product', product %}
       {% if product.has_only_default_variant %}
         {% if selected_variant %}<input type="hidden" name="id" value="{{ selected_variant.id }}">{% endif %}
       {% else %}
@@ -34,11 +33,10 @@
       {% if selected_variant %}
         <label for="ProductQuantity">Quantity</label>
         <input id="ProductQuantity" type="number" name="quantity" value="1" min="1">
-        <button type="submit" name="add">Add to cart</button>
+        <button>Add to cart</button>
       {% else %}
-        <button type="submit" disabled>Sold out</button>
+        <button disabled>Sold out</button>
       {% endif %}
-    {% endform %}
     <div class="rte">{{ product.description }}</div>
   </div>
 </article>

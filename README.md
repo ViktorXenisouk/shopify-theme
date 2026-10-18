@@ -24,7 +24,7 @@ Cards use Shopify's first available variant ID in the native product form. Produ
 Install and authenticate with Shopify CLI, then run from this directory:
 
 ```sh
-shopify theme dev --store your-store.myshopify.com
+shopify theme dev --store test-7bfuv9uf.myshopify.com
 ```
 
 The CLI prints a preview URL after connecting to the store.
